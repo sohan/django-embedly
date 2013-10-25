@@ -1,4 +1,5 @@
 from django.db import models
+from jsonfield import JSONField
 
 OEMBED_TYPES = (
     ('video',)*2,
@@ -11,7 +12,7 @@ class SavedEmbed(models.Model):
     url = models.URLField()
     maxwidth = models.SmallIntegerField(null=True, blank=True)
     type = models.CharField(max_length=10, choices=OEMBED_TYPES)
-    html = models.TextField(blank=True)
+    oembed_data = JSONField()
     last_updated = models.DateTimeField(auto_now=True)
 
     class Meta:
