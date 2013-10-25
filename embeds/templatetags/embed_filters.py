@@ -24,7 +24,7 @@ def _get_url_from_context_variable(var):
     return None
 
 @register.assignment_tag
-def get_oembed_data(context_var, maxwidth=None):
+def get_oembed_data(context_var, maxwidth=None, maxheight=None):
     '''
     A custom templatetag that returns an object representing 
         all oembed data for a given url found in a context variable
@@ -52,11 +52,15 @@ def get_oembed_data(context_var, maxwidth=None):
         return {}
 
     try:
-        saved_embed = SavedEmbed.objects.get(url=url, maxwidth=maxwidth)
+        saved_embed = SavedEmbed.objects.get(url=url, maxwidth=maxwidth, maxheight=maxheight)
     except SavedEmbed.DoesNotExist:
         client = Embedly(key=settings.EMBEDLY_KEY, user_agent=USER_AGENT)
-        if maxwidth:
+        if maxwidth and maxheight:
+            oembed = client.oembed(url, maxwidth=maxwidth, maxheight=maxheight)
+        elif maxwidth:
             oembed = client.oembed(url, maxwidth=maxwidth)
+        elif maxheight:
+            oembed = client.oembed(url, maxheight=maxheight)
         else:
             oembed = client.oembed(url)
 
@@ -66,6 +70,7 @@ def get_oembed_data(context_var, maxwidth=None):
         saved_embed, created = SavedEmbed.objects.get_or_create(
                 url=url,
                 maxwidth=maxwidth,
+                maxheight=maxheight,
                 defaults={
                     'type': oembed.type,
                     'oembed_data': oembed.data
