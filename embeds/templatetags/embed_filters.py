@@ -8,7 +8,7 @@ from embeds.models import SavedEmbed
 register = template.Library()
 
 #url regex found here: http://daringfireball.net/2010/07/improved_regex_for_matching_urls
-URL_REGEX = re.compile(r"""(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))""")
+URL_REGEX = re.compile(r"""(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s!()\[\]{};:'".,<>?]))""")
 
 USER_AGENT = 'Mozilla/5.0 (compatible; django-embedly/0.2; ' \
         '+http://github.com/BayCitizen/)'
@@ -68,7 +68,7 @@ def get_oembed_data(context_var, maxwidth=None):
                 maxwidth=maxwidth,
                 defaults={
                     'type': oembed.type,
-                    'oembed_data': oembed
+                    'oembed_data': oembed.data
                 })
 
     return saved_embed.oembed_data
