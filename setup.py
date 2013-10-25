@@ -2,11 +2,11 @@ from setuptools import setup
 
 setup(
     name='django-embedly',
-    version='0.2',
-    description='Provides a template filter to parse embed URLs and talk to embedly API',
-    author='Bay Citizen',
-    author_email='info@baycitizen.org',
-    url='http://github.com/BayCitizen/django-embedly/',
+    version='0.3',
+    description='Provides a templatetag to parse embed URLs and talk to embedly API',
+    author='sohan',
+    author_email='',
+    url='http://github.com/sohan/django-embedly/',
     packages=[
         'embeds',
     ],

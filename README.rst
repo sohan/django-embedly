@@ -1,10 +1,8 @@
-BayCitizen / django-embedly
+sohan / django-embedly
 ===========================
 
-This package provides a template filter to parse embed URLs and call the
-embedly API to generate embed HTML. It uses django's caching backend to cache
-the response and it saves the same data in a database for embedly doomsday
-scenario.
+This package provides a template tag to parse embed URLs and call the
+embedly API to generate oembed data, that you can use in your HTML.
 
 Installation
 ------------
@@ -39,8 +37,10 @@ width of 400px::
     {{ my_text }}
 
     {% get_oembed_data my_text maxwidth=400 as oembed %}
-    <div class="embed-data">
-        {{oembed.title}} <br />
-        {{oembed.description}} <br />
-        {{oembed.html}} <br />
-    </div>
+    {% if oembed %}
+        <div class="embed-data">
+            {{oembed.title}} <br />
+            {{oembed.description}} <br />
+            {{oembed.html}} <br />
+        </div>
+    {% endif %}
