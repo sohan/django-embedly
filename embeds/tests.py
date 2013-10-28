@@ -36,6 +36,20 @@ class EmbedlyTemplateFilterTest(TestCase):
 
         self.assertEquals(oembed_data, saved_embed.oembed_data)
 
+    def test_maxwidth_and_maxheight(self):
+        oembed_data = get_oembed_data(self.text['photo'], maxwidth=300, maxheight=300)
+
+        #test that the db object exists
+        saved_embed = SavedEmbed.objects.all()[0]
+        self.assertTrue(saved_embed.oembed_data.keys())
+        self.assertEquals(saved_embed.oembed_data['provider_url'], u'http://www.flickr.com/')
+        self.assertTrue(saved_embed.oembed_data['width'] <  300)
+        self.assertTrue(saved_embed.oembed_data['height'] <  300)
+
+        self.assertEquals(oembed_data, saved_embed.oembed_data)
+
+
+
     def test_leave_my_links_in_peace(self):
         oembed_data = get_oembed_data(self.text['noop'])
         self.assertFalse(oembed_data)
