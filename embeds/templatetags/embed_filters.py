@@ -7,8 +7,9 @@ from embeds.models import SavedEmbed
 
 register = template.Library()
 
-#url regex found here: http://daringfireball.net/2010/07/improved_regex_for_matching_urls
-URL_REGEX = re.compile(r"""(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s!()\[\]{};:'".,<>?]))""")
+#url regex found here: https://gist.github.com/uogbuji/705383
+URL_REGEX = re.compile(ur'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?\xab\xbb\u201c\u201d\u2018\u2019]))')
+
 
 USER_AGENT = 'Mozilla/5.0 (compatible; django-embedly/0.2; ' \
         '+http://github.com/BayCitizen/)'
