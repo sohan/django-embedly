@@ -52,9 +52,11 @@ def get_oembed_data(context_var, maxwidth=None, maxheight=None):
     if not url:
         return {}
 
+    #if maxwidth or maxheight is None, the unique_together constraint does not work
+    #for now, just filter and check first element instead of using objects.get
     try:
-        saved_embed = SavedEmbed.objects.get(url=url, maxwidth=maxwidth, maxheight=maxheight)
-    except SavedEmbed.DoesNotExist:
+        saved_embed = SavedEmbed.objects.filter(url=url, maxwidth=maxwidth, maxheight=maxheight)[0]
+    except IndexError:
         client = Embedly(key=settings.EMBEDLY_KEY, user_agent=USER_AGENT)
         if maxwidth and maxheight:
             oembed = client.oembed(url, maxwidth=maxwidth, maxheight=maxheight)
