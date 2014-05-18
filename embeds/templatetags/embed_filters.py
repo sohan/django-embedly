@@ -58,14 +58,17 @@ def get_oembed_data(context_var, maxwidth=None, maxheight=None):
         saved_embed = SavedEmbed.objects.filter(url=url, maxwidth=maxwidth, maxheight=maxheight)[0]
     except IndexError:
         client = Embedly(key=settings.EMBEDLY_KEY, user_agent=USER_AGENT)
-        if maxwidth and maxheight:
-            oembed = client.oembed(url, maxwidth=maxwidth, maxheight=maxheight)
-        elif maxwidth:
-            oembed = client.oembed(url, maxwidth=maxwidth)
-        elif maxheight:
-            oembed = client.oembed(url, maxheight=maxheight)
-        else:
-            oembed = client.oembed(url)
+        try:
+            if maxwidth and maxheight:
+                oembed = client.oembed(url, maxwidth=maxwidth, maxheight=maxheight)
+            elif maxwidth:
+                oembed = client.oembed(url, maxwidth=maxwidth)
+            elif maxheight:
+                oembed = client.oembed(url, maxheight=maxheight)
+            else:
+                oembed = client.oembed(url)
+        except: #TODO: don't catch all exceptions
+            return {}
 
         if oembed.error:
             return {}
